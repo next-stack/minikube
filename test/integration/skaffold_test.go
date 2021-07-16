@@ -34,6 +34,7 @@ import (
 	"k8s.io/minikube/pkg/util/retry"
 )
 
+// TestSkaffold makes sure skaffold run can be run with minikube
 func TestSkaffold(t *testing.T) {
 	if NoneDriver() {
 		t.Skip("none driver doesn't support `minikube docker-env`; skaffold depends on this command")
@@ -95,7 +96,7 @@ func TestSkaffold(t *testing.T) {
 	}()
 
 	// make sure "skaffold run" exits without failure
-	cmd := exec.CommandContext(ctx, tf.Name(), "run", "--minikube-profile", profile, "--kube-context", profile, "--status-check=true", "--port-forward=false")
+	cmd := exec.CommandContext(ctx, tf.Name(), "run", "--minikube-profile", profile, "--kube-context", profile, "--status-check=true", "--port-forward=false", "--interactive=false")
 	cmd.Dir = "testdata/skaffold"
 	rr, err = Run(t, cmd)
 	if err != nil {
